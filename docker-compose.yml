@@ -1,0 +1,12 @@
+version: "3.9"
+
+services:
+  web:
+    build: .
+    ports:
+      - "127.0.0.1:80:80"
+    volumes:
+      - ./src:/home/sayless/src
+    command: ["/home/sayless/.local/bin/uwsgi", "/home/sayless/src/uwsgi.ini", "--py-autoreload=1"]
+  redis:
+    image: "redis:6.0.5-buster"

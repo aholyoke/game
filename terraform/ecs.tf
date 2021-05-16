@@ -20,7 +20,7 @@ resource "aws_ecs_task_definition" "sayless" {
     {
       name      = "sayless_container_definition"
       image     = "448047001996.dkr.ecr.ca-central-1.amazonaws.com/game:latest"
-      command = ["/home/sayless/.local/bin/uwsgi", "/home/sayless/uwsgi.ini"]
+      command = ["/home/sayless/.local/bin/uwsgi", "/home/sayless/src/uwsgi.ini"]
       essential = true
       portMappings = [
         {

@@ -6,11 +6,11 @@ WORKDIR /home/sayless
 
 USER sayless
 
-CMD ["/home/sayless/.local/bin/uwsgi", "/home/sayless/uwsgi.ini"]
+CMD ["/home/sayless/.local/bin/uwsgi", "/home/sayless/src/uwsgi.ini"]
 
 ADD ./images/requirements.txt /home/requirements.txt
 
 RUN pip install -r /home/requirements.txt
 
-ADD ./src /home/sayless
+ADD ./src /home/sayless/src
 
