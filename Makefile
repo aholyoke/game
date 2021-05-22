@@ -1,7 +1,7 @@
 .PHONY: docker-build docker-login docker-push docker-run docker-run-bash deploy
 
 docker-build:
-	docker-compose build
+	docker build -t game .
 
 docker-login:
 	aws ecr get-login-password --region ca-central-1 | docker login --username AWS --password-stdin 448047001996.dkr.ecr.ca-central-1.amazonaws.com
@@ -17,5 +17,5 @@ docker-exec:
 	docker-compose up -d
 	docker-compose exec web bash
 
-deploy: docker-push
+deploy: docker-build docker-push
 	terraform -chdir=terraform apply

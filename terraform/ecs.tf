@@ -21,15 +21,29 @@ resource "aws_ecs_task_definition" "sayless" {
       name      = "sayless_container_definition"
       image     = "448047001996.dkr.ecr.ca-central-1.amazonaws.com/game:latest"
       command = ["/home/sayless/.local/bin/uwsgi", "/home/sayless/src/uwsgi.ini"]
+      environment = []
+      cpu = 0
       essential = true
+      logConfiguration = {
+        logDriver = "awslogs"
+        options = {
+          awslogs-group = aws_cloudwatch_log_group.sayless.name
+          awslogs-region = "ca-central-1"
+          awslogs-stream-prefix = "ecs"
+        }
+      }
+      volumesFrom = []
+      mountPoints = []
       portMappings = [
         {
-          containerPort = 80
-          hostPort      = 80
+          containerPort = 8080
+          hostPort = 8080
+          protocol = "tcp"
         }
       ]
     }
   ])
+  tags = {}
 }
 
 resource "aws_ecs_service" "sayless" {
