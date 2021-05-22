@@ -17,5 +17,8 @@ docker-exec:
 	docker-compose up -d
 	docker-compose exec web bash
 
+docker-run:
+	docker run -it -p "127.0.0.1:8080:8080" -v /Users/alexholyoke/fun/game/src:/home/sayless/src game bash
+
 deploy: docker-build docker-push
 	terraform -chdir=terraform apply
