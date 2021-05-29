@@ -7,8 +7,9 @@ services:
     ports:
       - "127.0.0.1:8080:8080"
     volumes:
+      - ./client/react-flask-app/build/:/home/sayless/build
       - ./src:/home/sayless/src
     #command: ["/home/sayless/.local/bin/uwsgi", "/home/sayless/src/uwsgi.ini", "--py-autoreload=1"]
-    command: ["python", "/home/sayless/src/app.py"] 
+    command: ["python", "/home/sayless/src/app.py"]
   redis:
     image: "redis:6.0.5-buster"

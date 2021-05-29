@@ -1,13 +1,18 @@
-from flask import Flask, render_template, redirect
+from flask import Flask, redirect, render_template
 import random
 import string
 from flask_socketio import SocketIO, send
+import time
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder="../build", static_folder="../build/static", static_url_path="/static")
 
 app.config['SECRET_KEY'] = 'secret!'
 
 socketio = SocketIO(app, cors_allowed_origins="*")
+
+@app.route('/time')
+def get_current_time():
+ return {'time': time.time()}
 
 @socketio.on("message")
 def handleMessage(msg):
@@ -19,18 +24,19 @@ def handleMessage(msg):
 @app.route('/')
 def main():
     # Home page
-    return """
-<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
-<script type="text/javascript" charset="utf-8">
-    var socket = io();
-    socket.on('connect', function() {
-        socket.emit('message', {data: "I'm connected!"});
-    });
-</script>
-<form action="/game" method="post">
-  <input type="submit" value="New Game">
-</form>
-"""
+    return render_template("index.html")
+#     return """
+# <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
+# <script type="text/javascript" charset="utf-8">
+#     var socket = io();
+#     socket.on('connect', function() {
+#         socket.emit('message', {data: "I'm connected!"});
+#     });
+# </script>
+# <form action="/game" method="post">
+#   <input type="submit" value="New Game">
+# </form>
+# """
 
 
 @app.route('/game', methods=['POST'])
